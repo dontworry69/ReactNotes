@@ -1,1 +1,1 @@
-export const GET_NOTES = 'GET_NOTES';
+export const NOTES = 'ADD_NOTES';

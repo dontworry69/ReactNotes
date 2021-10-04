@@ -3,5 +3,4 @@ import {notes} from './reducers';
 
 export const rootReducer = combineReducers({
   notes,
-
 })

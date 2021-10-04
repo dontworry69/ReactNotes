@@ -1,7 +1,9 @@
 import React from 'react';
 import { Button, Popup,Input } from 'semantic-ui-react';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
+import { addNote } from '../../redux/actions';
 export function Header () {
+  const dispatch = useDispatch();
   const customStyle ={
     header:{
       display:'flex',
@@ -15,8 +17,9 @@ export function Header () {
       subtitle:'',
       id:Date.now(),
     };
-    notes.push(note)
-    localStorage.setItem('notes',JSON.stringify(notes))
+    notes.unshift(note);
+    localStorage.setItem('notes',JSON.stringify(notes));
+    dispatch(addNote());
   }
   return(
     <header className={"app-header"} style={customStyle.header}>

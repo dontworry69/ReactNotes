@@ -1,4 +1,4 @@
-import {GET_NOTES} from './types';
+import { NOTES } from './types';
 
 const initialState = {
   notes:[],
@@ -6,7 +6,7 @@ const initialState = {
 
 export function notes(state = initialState.notes,action) {
   switch (action.type){
-    case GET_NOTES : return state = action.payload;
+    case NOTES : return state = action.payload;
     default : return state;
   }
 }

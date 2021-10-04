@@ -1,9 +1,18 @@
 import {
-  GET_NOTES
+  NOTES,
 } from './types';
 
-export function getNotesFromLS(){
-  return {
-
+export function addNote(){
+  const notes = JSON.parse(localStorage.getItem('notes'));
+  if(notes){
+    return {
+      type:NOTES,
+      payload:notes,
+    }
+  }else {
+    return {
+      type:NOTES,
+      payload:[],
+    }
   }
 }

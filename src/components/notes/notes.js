@@ -1,58 +1,46 @@
-import React from 'react';
+import React, { useState,useRef } from 'react';
 import { Card,Input,Button } from 'semantic-ui-react'
+import { useDispatch, useSelector } from 'react-redux';
+import { addNote } from '../../redux/actions';
 
 export function Notes() {
+  const dispatch = useDispatch();
+  const notes = useSelector(state => state.notes);
+  const [selectNote,setSelectNote] = useState({});
+  const changeSetSelectNote = (note) => {
+    setSelectNote(note);
+  };
+  const noteTitle = useRef('');
+  const noteSubtitle = useRef('');
+  const saveNotes = (id) => {
+    const updateNotes = notes.map(note => note.id === id ? {...note,title:noteTitle.current.inputRef.current.value,subtitle:noteSubtitle.current.value} : {...note});
+    localStorage.setItem('notes',JSON.stringify(updateNotes));
+    dispatch(addNote());
+  };
+  const handleChangeTitle = value => setSelectNote({...selectNote, title: value});
+  const handleChangeSubtitle = value => setSelectNote({...selectNote, subtitle:value});
   return (
     <main style={{padding:'20px',display:'flex'}}>
       <div style={{overflow:'auto'}}>
-        <Card>
-          <Card.Content>
-            <Card.Header content='Jake Smith' />
-            <Card.Description content='Jake is a drummer living in New York.' />
-          </Card.Content>
-        </Card>
-        <Card>
-          <Card.Content>
-            <Card.Header content='Jake Smith' />
-            <Card.Meta content='Musicians' />
-            <Card.Description content='Jake is a drummer living in New York.' />
-          </Card.Content>
-        </Card>
-        <Card>
-          <Card.Content>
-            <Card.Header content='Jake Smith' />
-            <Card.Meta content='Musicians' />
-            <Card.Description content='Jake is a drummer living in New York.' />
-          </Card.Content>
-        </Card>
-        <Card>
-          <Card.Content>
-            <Card.Header content='Jake Smith' />
-            <Card.Meta content='Musicians' />
-            <Card.Description content='Jake is a drummer living in New York.' />
-          </Card.Content>
-        </Card>
-        <Card>
-          <Card.Content>
-            <Card.Header content='Jake Smith' />
-            <Card.Meta content='Musicians' />
-            <Card.Description content='Jake is a drummer living in New York.' />
-          </Card.Content>
-        </Card>
-        <Card>
-          <Card.Content>
-            <Card.Header content='Jake Smith' />
-            <Card.Meta content='Musicians' />
-            <Card.Description content='Jake is a drummer living in New York.' />
-          </Card.Content>
-        </Card>
+        {
+          notes.map(note => {
+            return(
+              <Card key={note.id} onClick={() => changeSetSelectNote(note)}>
+                <Card.Content>
+                  <Card.Header content={note.title} />
+                  <Card.Description content={note.subtitle} />
+                </Card.Content>
+              </Card>
+            )
+          })
+        }
       </div>
       <div style={{flexGrow:'2',marginLeft:'20px'}}>
         <div style={{backgroundColor:'#ffff',padding:'20px',borderRadius:'8px'}}>
-          <Input style={{width:'100%'}} placeholder='Title' />
-          <textarea name='' id='' cols='30' rows='10' placeholder="Subtitle" style={{marginTop:'20px',width:'100%',padding:'15px',outline:'none',border:'1px solid rgba(34,36,38,.15)',borderRadius:'8px'}}></textarea>
+          <Input style={{width:'100%'}} placeholder='Title' value={selectNote.title} onChange={event=>handleChangeTitle(event.target.value)} ref={noteTitle}/>
+          <textarea cols='30' rows='10' ref={noteSubtitle} value={selectNote.subtitle} placeholder="Subtitle" onChange={event=>handleChangeSubtitle(event.target.value)} style={{marginTop:'20px',width:'100%',padding:'15px',outline:'none',border:'1px solid rgba(34,36,38,.15)',borderRadius:'8px'}}></textarea>
           <div style={{marginTop:'20px'}}>
-            <Button primary>Save</Button>
+            <Button primary onClick={()=> saveNotes(selectNote.id)}>Save</Button>
             <Button secondary>Delete</Button>
           </div>
         </div>
