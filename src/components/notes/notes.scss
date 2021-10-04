@@ -1,0 +1,26 @@
+.notes{
+  padding:20px;
+  display:flex;
+
+  &-tile{
+    background-color:#fff;
+    padding:20px 80px;
+    text-align: center;
+    font-weight:600;
+    border-radius:8px;
+  }
+  &-right-bar{
+    overflow: auto;
+    max-height:400px;
+    overflow-x:hidden;
+  }
+  &-left-bar{
+    flex-grow: 2;
+    margin-left: 20px;
+    &__form{
+      background-color:#ffff;
+      padding:20px;
+      border-radius:8px;
+    }
+  }
+}

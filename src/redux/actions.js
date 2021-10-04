@@ -1,18 +1,23 @@
-import {
-  NOTES,
-} from './types';
+import { NOTES, SORTING_NOTE } from './types';
 
-export function addNote(){
+export function addNote() {
   const notes = JSON.parse(localStorage.getItem('notes'));
-  if(notes){
+  if (notes) {
     return {
-      type:NOTES,
-      payload:notes,
-    }
-  }else {
+      type: NOTES,
+      payload: notes,
+    };
+  } else {
     return {
-      type:NOTES,
-      payload:[],
-    }
+      type: NOTES,
+      payload: [],
+    };
   }
+}
+
+export function inputValueForSorting(notes) {
+  return {
+    type: SORTING_NOTE,
+    payload: notes,
+  };
 }
