@@ -4,6 +4,7 @@ import {Notes} from './components/notes/notes';
 import './semantic-ui-css/semantic.min.css';
 import { useDispatch } from 'react-redux';
 import { addNote } from './redux/actions';
+
 function App() {
   const dispatch = useDispatch();
   useEffect(()=> {

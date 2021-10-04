@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useRef} from 'react';
 import { Button, Popup,Input } from 'semantic-ui-react';
 import { useSelector,useDispatch } from 'react-redux';
 import { addNote } from '../../redux/actions';
@@ -21,10 +21,11 @@ export function Header () {
     localStorage.setItem('notes',JSON.stringify(notes));
     dispatch(addNote());
   }
+  const inputValue = useRef();
   return(
     <header className={"app-header"} style={customStyle.header}>
       <Popup  content='Add note' trigger={<Button icon='add' onClick={()=> createNote()} />} />
-      <Input icon='search' placeholder='Search...' />
+      <Input icon='search' placeholder='Search...' ref={inputValue} />
     </header>
   )
 }

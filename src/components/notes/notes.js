@@ -2,6 +2,7 @@ import React, { useState,useRef } from 'react';
 import { Card,Input,Button } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux';
 import { addNote } from '../../redux/actions';
+import { DeleteModal } from '../DeleteModal/DeleteModal';
 
 export function Notes() {
   const dispatch = useDispatch();
@@ -19,8 +20,18 @@ export function Notes() {
   };
   const handleChangeTitle = value => setSelectNote({...selectNote, title: value});
   const handleChangeSubtitle = value => setSelectNote({...selectNote, subtitle:value});
+  const deleteNote = id => {
+    const updateNotes = notes.filter(note => note.id !== id)
+    localStorage.setItem('notes',JSON.stringify(updateNotes));
+    dispatch(addNote());
+    changeSetSelectNote(notes[0]);
+  };
+  const [openDeleteModal,setOpenDeleteModal] = useState(false);
+  const changeOpenDeleteModal = ()=> setOpenDeleteModal(!openDeleteModal);
+
   return (
     <main style={{padding:'20px',display:'flex'}}>
+      <DeleteModal isOpen={openDeleteModal} isChangeModal={changeOpenDeleteModal} deleteNote={deleteNote} idNote={selectNote.id}/>
       <div style={{overflow:'auto'}}>
         {
           notes.map(note => {
@@ -41,7 +52,7 @@ export function Notes() {
           <textarea cols='30' rows='10' ref={noteSubtitle} value={selectNote.subtitle} placeholder="Subtitle" onChange={event=>handleChangeSubtitle(event.target.value)} style={{marginTop:'20px',width:'100%',padding:'15px',outline:'none',border:'1px solid rgba(34,36,38,.15)',borderRadius:'8px'}}></textarea>
           <div style={{marginTop:'20px'}}>
             <Button primary onClick={()=> saveNotes(selectNote.id)}>Save</Button>
-            <Button secondary>Delete</Button>
+            <Button secondary onClick={()=>changeOpenDeleteModal()}>Delete</Button>
           </div>
         </div>
       </div>
